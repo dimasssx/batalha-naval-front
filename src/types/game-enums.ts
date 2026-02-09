@@ -1,18 +1,18 @@
 // Enums e tipos do jogo 
 export enum CellState {
-  WATER = 0,
-  SHIP = 1,
-  HIT = 2,
-  MISS = 3,
+  WATER = 'Water',
+  SHIP = 'Ship',
+  HIT = 'Hit',
+  MISS = 'Missed',
 }
 export enum ShipOrientation {
   HORIZONTAL = 'Horizontal',
   VERTICAL = 'Vertical',
 }
 export enum GameStatus {
-  SETUP = 0,
-  BATTLE = 1,
-  FINISHED = 2,
+  SETUP = 'Setup',
+  BATTLE = 'InProgress',
+  FINISHED = 'Finished',
 }
 export enum ShipType {
   PORTA_AVIAO = 'Porta-Aviões',         // 5 células
