@@ -6,7 +6,7 @@ import { authService } from '@/services/authService';
 import { LoginInput, RegisterInput } from '@/types/api-requests';
 import { AuthResponse } from '@/types/api-responses';
 import { setUsername, removeUsername, removeToken, setToken, setRefreshToken, removeRefreshToken } from '@/lib/utils';
-
+import { da } from 'zod/locales';
 interface AuthContextType {
   user: string | null;
   login: (credentials: LoginInput) => Promise<void>;
@@ -24,12 +24,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const savedUser = localStorage.getItem('username');
-    if (savedUser) setUser(savedUser);
+    const token = localStorage.getItem('token');
+    if (token && savedUser) {
+    setUser(savedUser);
+  }
     setIsLoading(false);
   }, []);
 
-  const handleAuthSuccess = (data: AuthResponse) => {
-
+  const handleAuthSuccess = async (data: AuthResponse) => {
     console.log("Auth Success Data:", data);
     setUser(data.username);
     setUsername(data.username);
@@ -39,7 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     console.log("RefreshToken set in localStorage (AuthProvider):", data.refreshToken);
     document.cookie = `auth-token=${data.accessToken}; path=/; samesite=strict;`;
     
-    router.push('/lobby');
+    router.replace('/lobby');
   };
 
   const login = async (credentials: LoginInput) => {
@@ -48,8 +50,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const register = async (credentials: RegisterInput) => {
-    const data = await authService.register(credentials);
-    handleAuthSuccess(data);
+    await authService.register(credentials);
+    router.replace('login')
   };
 
   const logout = () => {
@@ -58,7 +60,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     removeToken();
     removeRefreshToken();
     document.cookie = "auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    router.push('/login');
+    router.replace('/login');
   };
 
   return (
