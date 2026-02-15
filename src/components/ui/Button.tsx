@@ -1,20 +1,19 @@
 /**
  * Button Component - Naval Design System
- * 
+ *
  * High contrast button with loading state support.
  * Adheres to flat/deep naval aesthetic.
  */
-'use client';
+"use client";
 
-import * as React from 'react';
-import { cn } from '@/lib/utils';
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Visual variant of the button */
-  variant?: 'default' | 'destructive' | 'outline' | 'ghost' | 'link';
+  variant?: "default" | "destructive" | "outline" | "ghost" | "link";
   /** Size preset */
-  size?: 'default' | 'sm' | 'lg' | 'icon';
+  size?: "default" | "sm" | "lg" | "icon";
   /** Show loading spinner and disable interactions */
   isLoading?: boolean;
 }
@@ -50,55 +49,55 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       className,
-      variant = 'default',
-      size = 'default',
+      variant = "default",
+      size = "default",
       isLoading = false,
       disabled,
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const baseStyles = cn(
-      'inline-flex items-center justify-center font-medium',
-      'rounded-md transition-colors duration-200',
-      'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-naval-bg',
-      'disabled:pointer-events-none disabled:opacity-50'
+      "inline-flex items-center justify-center font-medium",
+      "rounded-md transition-colors duration-200",
+      "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-naval-bg",
+      "disabled:pointer-events-none disabled:opacity-50",
     );
 
     const variants = {
       default: cn(
-        'bg-naval-action text-naval-bg',
-        'hover:bg-naval-action-hover',
-        'focus:ring-naval-action'
+        "bg-naval-action text-naval-bg",
+        "hover:bg-naval-action-hover",
+        "focus:ring-naval-action",
       ),
       destructive: cn(
-        'bg-naval-error text-white',
-        'hover:bg-naval-error-hover',
-        'focus:ring-naval-error'
+        "bg-naval-error text-white",
+        "hover:bg-naval-error-hover",
+        "focus:ring-naval-error",
       ),
       outline: cn(
-        'border border-naval-border bg-transparent text-white',
-        'hover:bg-naval-surface',
-        'focus:ring-naval-action'
+        "border border-naval-border bg-transparent text-white",
+        "hover:bg-naval-surface",
+        "focus:ring-naval-action",
       ),
       ghost: cn(
-        'bg-transparent text-white',
-        'hover:bg-naval-surface',
-        'focus:ring-naval-action'
+        "bg-transparent text-white",
+        "hover:bg-naval-surface",
+        "focus:ring-naval-action",
       ),
       link: cn(
-        'text-naval-action underline-offset-4',
-        'hover:underline',
-        'focus:ring-naval-action'
+        "text-naval-action underline-offset-4",
+        "hover:underline",
+        "focus:ring-naval-action",
       ),
     };
 
     const sizes = {
-      default: 'h-11 px-6 py-2 text-sm',
-      sm: 'h-9 px-4 text-sm',
-      lg: 'h-12 px-8 text-base',
-      icon: 'h-10 w-10',
+      default: "h-11 px-6 py-2 text-sm",
+      sm: "h-9 px-4 text-sm",
+      lg: "h-12 px-8 text-base",
+      icon: "h-10 w-10",
     };
 
     return (
@@ -113,8 +112,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {children}
       </button>
     );
-  }
+  },
 );
-Button.displayName = 'Button';
+Button.displayName = "Button";
 
 export { Button };

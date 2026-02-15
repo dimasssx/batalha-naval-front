@@ -1,21 +1,27 @@
 /**
  * Register Page - Naval Design System
- * 
+ *
  * User registration interface with form validation using react-hook-form + Zod.
  * Follows flat/deep naval aesthetic with 100% visual consistency with Login page.
  */
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import React, { useState } from "react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
-import { useAuth } from '@/providers/AuthProvider';
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/Card";
+import { useAuth } from "@/providers/AuthProvider";
 // ============================================================================
 // Validation Schema
 // ============================================================================
@@ -24,27 +30,23 @@ const registerSchema = z
   .object({
     username: z
       .string()
-      .min(1, 'Nome de usuário é obrigatório')
-      .min(3, 'Nome de usuário deve ter pelo menos 3 caracteres')
-      .max(20, 'Nome de usuário deve ter no máximo 20 caracteres')
+      .min(1, "Nome de usuário é obrigatório")
+      .min(3, "Nome de usuário deve ter pelo menos 3 caracteres")
+      .max(20, "Nome de usuário deve ter no máximo 20 caracteres")
       .regex(
         /^[a-zA-Z0-9_]+$/,
-        'Nome de usuário deve conter apenas letras, números e underscores'
+        "Nome de usuário deve conter apenas letras, números e underscores",
       ),
     /*email: z
       .string()
       .min(1, 'Email é obrigatório')
       .email('Digite um email válido'), */
-    password: z
-      .string()
-      .min(6, 'A senha deve ter pelo menos 6 caracteres'),
-    confirmPassword: z
-      .string()
-      .min(1, 'Confirmação de senha é obrigatória'),
+    password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+    confirmPassword: z.string().min(1, "Confirmação de senha é obrigatória"),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'As senhas não coincidem',
-    path: ['confirmPassword'],
+    message: "As senhas não coincidem",
+    path: ["confirmPassword"],
   });
 
 type RegisterFormData = z.infer<typeof registerSchema>;
@@ -54,15 +56,15 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 // ============================================================================
 
 interface AlertProps {
-  type: 'error' | 'success';
+  type: "error" | "success";
   message: string;
   onClose?: () => void;
 }
 
 const Alert: React.FC<AlertProps> = ({ type, message, onClose }) => {
   const styles = {
-    error: 'bg-naval-error/10 border-naval-error text-naval-error',
-    success: 'bg-green-500/10 border-green-500 text-green-400',
+    error: "bg-naval-error/10 border-naval-error text-naval-error",
+    success: "bg-green-500/10 border-green-500 text-green-400",
   };
 
   return (
@@ -110,25 +112,25 @@ export default function RegisterPage() {
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      username: '',
-     // email: '',
-      password: '',
-      confirmPassword: '',
+      username: "",
+      // email: '',
+      password: "",
+      confirmPassword: "",
     },
   });
-  
+
   const onSubmit = async (data: RegisterFormData) => {
     setError(null);
 
     try {
       await authRegister({
-      username: data.username,
-      //email: data.email,
-      password: data.password,
-    });
-
+        username: data.username,
+        //email: data.email,
+        password: data.password,
+      });
     } catch (err: any) {
-      const errorMessage = err?.message || 'Erro ao criar conta. Tente novamente.';
+      const errorMessage =
+        err?.message || "Erro ao criar conta. Tente novamente.";
       setError(errorMessage);
     }
   };
@@ -170,7 +172,7 @@ export default function RegisterPage() {
                 autoComplete="username"
                 error={!!errors.username}
                 errorMessage={errors.username?.message}
-                {...register('username')}
+                {...register("username")}
               />
             </div>
 
@@ -208,7 +210,7 @@ export default function RegisterPage() {
                 autoComplete="new-password"
                 error={!!errors.password}
                 errorMessage={errors.password?.message}
-                {...register('password')}
+                {...register("password")}
               />
             </div>
 
@@ -227,24 +229,20 @@ export default function RegisterPage() {
                 autoComplete="new-password"
                 error={!!errors.confirmPassword}
                 errorMessage={errors.confirmPassword?.message}
-                {...register('confirmPassword')}
+                {...register("confirmPassword")}
               />
             </div>
 
             {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full"
-              isLoading={isSubmitting}
-            >
-              {isSubmitting ? 'Criando conta...' : 'Criar conta'}
+            <Button type="submit" className="w-full" isLoading={isSubmitting}>
+              {isSubmitting ? "Criando conta..." : "Criar conta"}
             </Button>
           </form>
 
           {/* Login Link */}
           <div className="mt-6 text-center text-sm">
             <span className="text-naval-text-secondary">
-              Já tem uma conta?{' '}
+              Já tem uma conta?{" "}
             </span>
             <Link
               href="/login"

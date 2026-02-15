@@ -1,9 +1,9 @@
 // Componente Cell - Célula individual do tabuleiro
-'use client';
+"use client";
 
-import React from 'react';
-import { CellState } from '@/types/game-enums';
-import { cn } from '@/lib/utils';
+import React from "react";
+import { CellState } from "@/types/game-enums";
+import { cn } from "@/lib/utils";
 
 interface CellProps {
   state: CellState;
@@ -21,28 +21,24 @@ export const Cell: React.FC<CellProps> = ({
   const getCellStyle = () => {
     switch (state) {
       case CellState.WATER:
-        return 'bg-blue-400 hover:bg-blue-300';
+        return "bg-blue-400 hover:bg-blue-300";
       case CellState.SHIP:
-        return showShip ? 'bg-gray-600' : 'bg-blue-400 hover:bg-blue-300';
+        return showShip ? "bg-gray-600" : "bg-blue-400 hover:bg-blue-300";
       case CellState.HIT:
-        return 'bg-red-600';
+        return "bg-red-600";
       case CellState.MISS:
-        return 'bg-white';
+        return "bg-white";
       default:
-        return 'bg-blue-400';
+        return "bg-blue-400";
     }
   };
 
   const getCellContent = () => {
     switch (state) {
       case CellState.HIT:
-        return (
-          <div className="text-white text-2xl font-bold">✕</div>
-        );
+        return <div className="text-white text-2xl font-bold">✕</div>;
       case CellState.MISS:
-        return (
-          <div className="text-blue-600 text-2xl font-bold">○</div>
-        );
+        return <div className="text-blue-600 text-2xl font-bold">○</div>;
       default:
         return null;
     }
@@ -51,11 +47,11 @@ export const Cell: React.FC<CellProps> = ({
   return (
     <button
       className={cn(
-        'w-10 h-10 border border-gray-700 flex items-center justify-center',
-        'transition-colors duration-150',
+        "w-10 h-10 border border-gray-700 flex items-center justify-center",
+        "transition-colors duration-150",
         getCellStyle(),
-        !disabled && 'cursor-pointer',
-        disabled && 'cursor-not-allowed'
+        !disabled && "cursor-pointer",
+        disabled && "cursor-not-allowed",
       )}
       onClick={onClick}
       disabled={disabled}

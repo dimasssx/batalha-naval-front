@@ -1,15 +1,15 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export function proxy(request: NextRequest) {
-  const token = request.cookies.get('auth-token');
+  const token = request.cookies.get("auth-token");
   const { pathname } = request.nextUrl;
 
-  const publicRoutes = ['/login', '/register', '/'];
+  const publicRoutes = ["/login", "/register", "/"];
   const isPublicRoute = publicRoutes.includes(pathname);
 
   if (!token && !isPublicRoute) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   return NextResponse.next();
@@ -28,6 +28,6 @@ export const config = {
      * - register (página de registro)
      * - arquivos com extensão (imagens, etc)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|login|register|.*\\..*).*)',
+    "/((?!api|_next/static|_next/image|favicon.ico|login|register|.*\\..*).*)",
   ],
 };

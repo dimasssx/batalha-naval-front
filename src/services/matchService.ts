@@ -1,6 +1,6 @@
 // Serviço de partidas (matches)
-import { CreateMatch, SetupMatchRequest } from '@/types/api-requests';
-import api from './api';
+import { CreateMatch, SetupMatchRequest } from "@/types/api-requests";
+import api from "./api";
 import {
   Match,
   MatchListItem,
@@ -8,27 +8,24 @@ import {
   SetupShipPayload,
   ShootPayload,
   ShootResponse,
-} from '@/types/api-responses';
+} from "@/types/api-responses";
 
 export const matchService = {
-
   // Criar nova partida
-  async createMatch(initMatch : CreateMatch): Promise<CreateMatchResponse> {
-    const { data } = await api.post<CreateMatchResponse>('/match',initMatch);
+  async createMatch(initMatch: CreateMatch): Promise<CreateMatchResponse> {
+    const { data } = await api.post<CreateMatchResponse>("/match", initMatch);
     return data;
   },
-  
-   // Posicionar navio durante o setup
+
+  // Posicionar navio durante o setup
   async placeShip(setup: SetupMatchRequest): Promise<SetupMatchRequest> {
     const { data } = await api.post<SetupMatchRequest>(`/match/setup`, setup);
     return data;
   },
 
-
-
   // Listar partidas disponíveis
   async listMatches(): Promise<MatchListItem[]> {
-    const { data } = await api.get<MatchListItem[]>('/match');
+    const { data } = await api.get<MatchListItem[]>("/match");
     return data;
   },
 
@@ -44,8 +41,6 @@ export const matchService = {
     return data;
   },
 
- 
-
   // Confirmar setup (marcar como pronto)
   async confirmSetup(matchId: string): Promise<Match> {
     const { data } = await api.post<Match>(`/match/${matchId}/ready`);
@@ -56,7 +51,7 @@ export const matchService = {
   async shoot(matchId: string, shot: ShootPayload): Promise<ShootResponse> {
     const { data } = await api.post<ShootResponse>(
       `/matches/${matchId}/shoot`,
-      shot
+      shot,
     );
     return data;
   },

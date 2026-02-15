@@ -1,8 +1,8 @@
 // Componente GameControls - Botões de controle (Girar, Desistir, Confirmar)
-'use client';
+"use client";
 
-import React from 'react';
-import { Button } from '@/components/ui/Button';
+import React from "react";
+import { Button } from "@/components/ui/Button";
 
 interface GameControlsProps {
   onRotate?: () => void;
@@ -19,35 +19,24 @@ export const GameControls: React.FC<GameControlsProps> = ({
   onForfeit,
   canRotate = false,
   canConfirm = false,
-  confirmLabel = 'Confirmar',
+  confirmLabel = "Confirmar",
 }) => {
   return (
     <div className="flex gap-3 flex-wrap">
       {onRotate && (
-        <Button
-          onClick={onRotate}
-          disabled={!canRotate}
-          variant="outline"
-        >
+        <Button onClick={onRotate} disabled={!canRotate} variant="outline">
           🔄 Girar Navio
         </Button>
       )}
-      
+
       {onConfirm && (
-        <Button
-          onClick={onConfirm}
-          disabled={!canConfirm}
-          variant="default"
-        >
+        <Button onClick={onConfirm} disabled={!canConfirm} variant="default">
           ✓ {confirmLabel}
         </Button>
       )}
-      
+
       {onForfeit && (
-        <Button
-          onClick={onForfeit}
-          variant="destructive"
-        >
+        <Button onClick={onForfeit} variant="destructive">
           🏳️ Desistir
         </Button>
       )}

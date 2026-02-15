@@ -8,7 +8,7 @@ export default function Home() {
         Batalha Naval
       </h1>
       <p className="text-slate-400 text-lg">Bem-vindo ao jogo!</p>
-      
+
       <div className="flex gap-4">
         <Link href="/login">
           <Button variant="default" className="w-32">

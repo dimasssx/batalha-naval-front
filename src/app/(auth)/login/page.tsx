@@ -1,33 +1,35 @@
 /**
  * Login Page - Naval Design System
- * 
+ *
  * Authentication interface with form validation using react-hook-form + Zod.
  * Follows flat/deep naval aesthetic with no gradients.
  */
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import React, { useState } from "react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
-import { useAuth } from '@/providers/AuthProvider';
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/Card";
+import { useAuth } from "@/providers/AuthProvider";
 
 // ============================================================================
 // Validation Schema
 // ============================================================================
 
 const loginSchema = z.object({
-  username: z
-    .string()
-    .min(1, 'Username é obrigatório'),
-  password: z
-    .string()
-    .min(6, 'A senha deve ter pelo menos 6 caracteres'),
+  username: z.string().min(1, "Username é obrigatório"),
+  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -37,15 +39,15 @@ type LoginFormData = z.infer<typeof loginSchema>;
 // ============================================================================
 
 interface AlertProps {
-  type: 'error' | 'success';
+  type: "error" | "success";
   message: string;
   onClose?: () => void;
 }
 
 const Alert: React.FC<AlertProps> = ({ type, message, onClose }) => {
   const styles = {
-    error: 'bg-naval-error/10 border-naval-error text-naval-error',
-    success: 'bg-green-500/10 border-green-500 text-green-400',
+    error: "bg-naval-error/10 border-naval-error text-naval-error",
+    success: "bg-green-500/10 border-green-500 text-green-400",
   };
 
   return (
@@ -94,19 +96,19 @@ export default function LoginPage() {
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
     },
   });
 
   const onSubmit = async (data: LoginFormData) => {
-  setError(null);
-  try {
-    await login(data);
-  } catch (err: any) {
-    setError(err.message || 'Erro ao fazer login.');
-  }
-};
+    setError(null);
+    try {
+      await login(data);
+    } catch (err: any) {
+      setError(err.message || "Erro ao fazer login.");
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-naval-bg p-4">
@@ -142,10 +144,10 @@ export default function LoginPage() {
                 id="username"
                 type="username"
                 placeholder="Usuario"
-                autoComplete= "username"
+                autoComplete="username"
                 error={!!errors.username}
                 errorMessage={errors.username?.message}
-                {...register('username')}
+                {...register("username")}
               />
             </div>
 
@@ -164,24 +166,20 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 error={!!errors.password}
                 errorMessage={errors.password?.message}
-                {...register('password')}
+                {...register("password")}
               />
             </div>
 
             {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full"
-              isLoading={isSubmitting}
-            >
-              {isSubmitting ? 'Entrando...' : 'Entrar'}
+            <Button type="submit" className="w-full" isLoading={isSubmitting}>
+              {isSubmitting ? "Entrando..." : "Entrar"}
             </Button>
           </form>
 
           {/* Registration Link */}
           <div className="mt-6 text-center text-sm">
             <span className="text-naval-text-secondary">
-              Não tem uma conta?{' '}
+              Não tem uma conta?{" "}
             </span>
             <Link
               href="/register"

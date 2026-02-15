@@ -1,7 +1,7 @@
 /**
  * Authentication Request DTOs
  * * These interfaces define the structure of data sent TO the API.
- * Keeping them separate from responses helps maintain a clean 
+ * Keeping them separate from responses helps maintain a clean
  * unidirectional data flow.
  */
 
@@ -25,12 +25,12 @@ export interface RegisterInput {
 }
 
 export interface CreateMatch {
-  mode: string,
-  aiDifficulty?:string
-  opponentId?:string
+  mode: string;
+  aiDifficulty?: string;
+  opponentId?: string;
 }
 
 export interface SetupMatchRequest {
-  matchId: string
-  ships: SetupShipPayload[]
+  matchId: string;
+  ships: SetupShipPayload[];
 }

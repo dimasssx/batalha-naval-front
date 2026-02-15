@@ -1,6 +1,6 @@
 // Hook customizado para lógica de validação do tabuleiro
-import { GRID_SIZE } from '@/lib/constants';
-import { Coordinate } from '@/types/game-enums';
+import { GRID_SIZE } from "@/lib/constants";
+import { Coordinate } from "@/types/game-enums";
 
 export const useBoardLogic = () => {
   const isValidCoordinate = (coord: Coordinate): boolean => {
@@ -16,9 +16,9 @@ export const useBoardLogic = () => {
     const adjacent: Coordinate[] = [];
     const directions = [
       { row: -1, col: 0 }, // cima
-      { row: 1, col: 0 },  // baixo
+      { row: 1, col: 0 }, // baixo
       { row: 0, col: -1 }, // esquerda
-      { row: 0, col: 1 },  // direita
+      { row: 0, col: 1 }, // direita
     ];
 
     directions.forEach((dir) => {

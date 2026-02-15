@@ -1,10 +1,10 @@
 // Componente Radar - Grid do oponente (apenas cliques)
-'use client';
+"use client";
 
-import React from 'react';
-import { Grid } from './Grid';
-import { CellState } from '@/types/game-enums';
-import { GRID_SIZE } from '@/lib/constants';
+import React from "react";
+import { Grid } from "./Grid";
+import { CellState } from "@/types/game-enums";
+import { GRID_SIZE } from "@/lib/constants";
 
 interface RadarProps {
   opponentGrid: CellState[][];
@@ -19,9 +19,9 @@ export const Radar: React.FC<RadarProps> = ({
 }) => {
   const handleCellClick = (row: number, col: number) => {
     if (!isYourTurn) return;
-    
+
     const cellState = opponentGrid[row][col];
-    
+
     // Só permite clicar em células não atacadas
     if (cellState === CellState.WATER || cellState === CellState.SHIP) {
       onAttack(row, col);
@@ -30,9 +30,7 @@ export const Radar: React.FC<RadarProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-      <h3 className="text-xl font-bold mb-4 text-white">
-        Radar do Oponente
-      </h3>
+      <h3 className="text-xl font-bold mb-4 text-white">Radar do Oponente</h3>
       <Grid
         grid={opponentGrid}
         onCellClick={handleCellClick}

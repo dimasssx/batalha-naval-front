@@ -1,10 +1,10 @@
 // Componente Grid - Renderizador 10x10 base
-'use client';
+"use client";
 
-import React from 'react';
-import { Cell } from './Cell';
-import { CellState } from '@/types/game-enums';
-import { GRID_SIZE } from '@/lib/constants';
+import React from "react";
+import { Cell } from "./Cell";
+import { CellState } from "@/types/game-enums";
+import { GRID_SIZE } from "@/lib/constants";
 
 interface GridProps {
   grid: CellState[][];
@@ -41,7 +41,7 @@ export const Grid: React.FC<GridProps> = ({
           <div className="w-8 h-10 flex items-center justify-center text-white font-bold">
             {rowIndex + 1}
           </div>
-          
+
           {row.map((cellState, colIndex) => (
             <Cell
               key={`${rowIndex}-${colIndex}`}

@@ -1,35 +1,35 @@
 // DTOs de retorno da API
-import { GameStatus, ShipOrientation, CellState } from './game-enums';
+import { GameStatus, ShipOrientation, CellState } from "./game-enums";
 
 export interface UserProfile {
-  rankPoints: number;                                                                                                                                                                                                                                                                                   
-  wins: number;                                                                                                                                                                                                                                                                                         
-  losses: number; 
+  rankPoints: number;
+  wins: number;
+  losses: number;
 }
 export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
   username: string;
-  profile: UserProfile
+  profile: UserProfile;
 }
-export interface UserDetails extends UserProfile{
+export interface UserDetails extends UserProfile {
   username: string;
   gamesPlayed: number;
 }
 export interface LeaderBoardResponse {
-  userId: number,
-  username: string,
-  points: number,
-  wins: number,
-  rank: string
+  userId: number;
+  username: string;
+  points: number;
+  wins: number;
+  rank: string;
 }
-export interface CreateMatchResponse{
-  matchId:string
+export interface CreateMatchResponse {
+  matchId: string;
 }
 
 export interface SetupShipPayload {
   name: string;
-  size:number;
+  size: number;
   startX: number;
   startY: number;
   orientation: ShipOrientation;
@@ -77,7 +77,6 @@ export interface MatchListItem {
   status: GameStatus;
   createdAt: string;
 }
-
 
 export interface ShootPayload {
   row: number;

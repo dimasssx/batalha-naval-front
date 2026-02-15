@@ -1,11 +1,11 @@
 // React Query hooks para queries de match
-import { useQuery } from '@tanstack/react-query';
-import { matchService } from '@/services/matchService';
-import { MATCH_POLLING_INTERVAL } from '@/lib/constants';
+import { useQuery } from "@tanstack/react-query";
+import { matchService } from "@/services/matchService";
+import { MATCH_POLLING_INTERVAL } from "@/lib/constants";
 
 export const useMatchQuery = (matchId: string, enabled: boolean = true) => {
   return useQuery({
-    queryKey: ['match', matchId],
+    queryKey: ["match", matchId],
     queryFn: () => matchService.getMatch(matchId),
     enabled,
     refetchInterval: MATCH_POLLING_INTERVAL,
@@ -15,7 +15,7 @@ export const useMatchQuery = (matchId: string, enabled: boolean = true) => {
 
 export const useMatchListQuery = () => {
   return useQuery({
-    queryKey: ['matches'],
+    queryKey: ["matches"],
     queryFn: () => matchService.listMatches(), //n faz nada ainda pq isso n existe no back
     refetchInterval: 600000, // Atualiza lista a cada 10 min -> pra n ficar mandando toda hr ja que n ta implementado
   });
@@ -23,9 +23,9 @@ export const useMatchListQuery = () => {
 
 export const useProfileQuery = () => {
   return useQuery({
-    queryKey: ['profile'],
+    queryKey: ["profile"],
     queryFn: async () => {
-      const { authService } = await import('@/services/authService');
+      const { authService } = await import("@/services/authService");
       return authService.getProfile();
     },
   });

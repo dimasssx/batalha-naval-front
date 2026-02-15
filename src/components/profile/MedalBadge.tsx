@@ -1,13 +1,13 @@
 /**
  * Medal Badge Component
- * 
+ *
  * Displays a medal/achievement with locked/unlocked states.
  * Shows tooltip on hover with medal name and description.
  */
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { cn } from '@/lib/utils';
+import React, { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export interface Medal {
   id: string;
@@ -22,7 +22,7 @@ export interface Medal {
 
 interface MedalBadgeProps {
   medal: Medal;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
 }
 
 /**
@@ -56,29 +56,37 @@ const Tooltip: React.FC<TooltipProps> = ({ medal, visible }) => {
         </div>
 
         {/* Progress (if applicable) */}
-        {!medal.unlocked && medal.progress !== undefined && medal.maxProgress !== undefined && (
-          <div className="mt-2">
-            <div className="flex justify-between items-center text-xs text-naval-text-muted mb-1">
-              <span>Progresso</span>
-              <span>{medal.progress}/{medal.maxProgress}</span>
+        {!medal.unlocked &&
+          medal.progress !== undefined &&
+          medal.maxProgress !== undefined && (
+            <div className="mt-2">
+              <div className="flex justify-between items-center text-xs text-naval-text-muted mb-1">
+                <span>Progresso</span>
+                <span>
+                  {medal.progress}/{medal.maxProgress}
+                </span>
+              </div>
+              <div className="h-1.5 bg-naval-border rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-naval-action transition-all"
+                  style={{
+                    width: `${(medal.progress / medal.maxProgress) * 100}%`,
+                  }}
+                />
+              </div>
             </div>
-            <div className="h-1.5 bg-naval-border rounded-full overflow-hidden">
-              <div
-                className="h-full bg-naval-action transition-all"
-                style={{ width: `${(medal.progress / medal.maxProgress) * 100}%` }}
-              />
-            </div>
-          </div>
-        )}
+          )}
 
         {/* Status Badge */}
-        <div className={cn(
-          'mt-2 text-xs font-bold uppercase tracking-wide text-center py-1 rounded',
-          medal.unlocked
-            ? 'bg-naval-action/20 text-naval-action'
-            : 'bg-naval-border text-naval-text-muted'
-        )}>
-          {medal.unlocked ? '✓ Desbloqueada' : '🔒 Bloqueada'}
+        <div
+          className={cn(
+            "mt-2 text-xs font-bold uppercase tracking-wide text-center py-1 rounded",
+            medal.unlocked
+              ? "bg-naval-action/20 text-naval-action"
+              : "bg-naval-border text-naval-text-muted",
+          )}
+        >
+          {medal.unlocked ? "✓ Desbloqueada" : "🔒 Bloqueada"}
         </div>
       </div>
       {/* Arrow */}
@@ -92,46 +100,47 @@ const Tooltip: React.FC<TooltipProps> = ({ medal, visible }) => {
 /**
  * Medal Badge Component
  */
-export const MedalBadge: React.FC<MedalBadgeProps> = ({ 
-  medal, 
-  size = 'md' 
+export const MedalBadge: React.FC<MedalBadgeProps> = ({
+  medal,
+  size = "md",
 }) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
   const sizeClasses = {
-    sm: 'w-16 h-16 text-2xl',
-    md: 'w-20 h-20 text-3xl',
-    lg: 'w-24 h-24 text-4xl',
+    sm: "w-16 h-16 text-2xl",
+    md: "w-20 h-20 text-3xl",
+    lg: "w-24 h-24 text-4xl",
   };
 
   const containerSizeClasses = {
-    sm: 'p-2',
-    md: 'p-3',
-    lg: 'p-4',
+    sm: "p-2",
+    md: "p-3",
+    lg: "p-4",
   };
 
   return (
     <div className="relative inline-block">
       <div
         className={cn(
-          'relative rounded-lg border-2 transition-all duration-300 cursor-pointer',
+          "relative rounded-lg border-2 transition-all duration-300 cursor-pointer",
           containerSizeClasses[size],
           medal.unlocked
-            ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500/50 hover:border-yellow-400 hover:shadow-lg hover:shadow-yellow-500/20 hover:scale-105'
-            : 'bg-naval-surface border-naval-border opacity-40 grayscale hover:opacity-60'
+            ? "bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500/50 hover:border-yellow-400 hover:shadow-lg hover:shadow-yellow-500/20 hover:scale-105"
+            : "bg-naval-surface border-naval-border opacity-40 grayscale hover:opacity-60",
         )}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
       >
         {/* Medal Icon */}
-        <div className={cn(
-          'flex items-center justify-center',
-          sizeClasses[size]
-        )}>
-          <span className={cn(
-            'transition-transform duration-300',
-            showTooltip && medal.unlocked && 'scale-110'
-          )}>
+        <div
+          className={cn("flex items-center justify-center", sizeClasses[size])}
+        >
+          <span
+            className={cn(
+              "transition-transform duration-300",
+              showTooltip && medal.unlocked && "scale-110",
+            )}
+          >
             {medal.icon}
           </span>
         </div>
@@ -144,11 +153,13 @@ export const MedalBadge: React.FC<MedalBadgeProps> = ({
         )}
 
         {/* Progress Ring (optional) */}
-        {!medal.unlocked && medal.progress !== undefined && medal.maxProgress !== undefined && (
-          <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-naval-surface border-2 border-naval-border rounded-full flex items-center justify-center text-[10px] font-bold text-naval-text-secondary">
-            {medal.progress}
-          </div>
-        )}
+        {!medal.unlocked &&
+          medal.progress !== undefined &&
+          medal.maxProgress !== undefined && (
+            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-naval-surface border-2 border-naval-border rounded-full flex items-center justify-center text-[10px] font-bold text-naval-text-secondary">
+              {medal.progress}
+            </div>
+          )}
       </div>
 
       {/* Tooltip */}

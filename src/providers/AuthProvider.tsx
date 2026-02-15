@@ -1,12 +1,19 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { authService } from '@/services/authService';
-import { LoginInput, RegisterInput } from '@/types/api-requests';
-import { AuthResponse } from '@/types/api-responses';
-import { setUsername, removeUsername, removeToken, setToken, setRefreshToken, removeRefreshToken } from '@/lib/utils';
-import {  useQueryClient } from '@tanstack/react-query';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { authService } from "@/services/authService";
+import { LoginInput, RegisterInput } from "@/types/api-requests";
+import { AuthResponse } from "@/types/api-responses";
+import {
+  setUsername,
+  removeUsername,
+  removeToken,
+  setToken,
+  setRefreshToken,
+  removeRefreshToken,
+} from "@/lib/utils";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface AuthContextType {
   user: string | null;
@@ -22,19 +29,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  const queryClient =  useQueryClient();
+  const queryClient = useQueryClient();
   const pathname = usePathname();
 
-
   useEffect(() => {
-    const savedUser = localStorage.getItem('username');
-    const token = localStorage.getItem('token');
+    const savedUser = localStorage.getItem("username");
+    const token = localStorage.getItem("token");
     if (token && savedUser) {
-    setUser(savedUser);
-    if (pathname === '/login' || pathname === '/register' || pathname === '/') {
-        router.replace('/lobby');
+      setUser(savedUser);
+      if (
+        pathname === "/login" ||
+        pathname === "/register" ||
+        pathname === "/"
+      ) {
+        router.replace("/lobby");
       }
-  }
+    }
     setIsLoading(false);
   }, []);
 
@@ -44,12 +54,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(data.username);
     setUsername(data.username);
     setToken(data.accessToken);
-    setRefreshToken(data.refreshToken)
+    setRefreshToken(data.refreshToken);
     console.log("Token set in localStorage (AuthProvider):", data.accessToken);
-    console.log("RefreshToken set in localStorage (AuthProvider):", data.refreshToken);
+    console.log(
+      "RefreshToken set in localStorage (AuthProvider):",
+      data.refreshToken,
+    );
     document.cookie = `auth-token=${data.accessToken}; path=/; samesite=strict;`;
-    
-    router.replace('/lobby');
+
+    router.replace("/lobby");
   };
 
   const login = async (credentials: LoginInput) => {
@@ -58,30 +71,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await handleAuthSuccess(data);
     } catch (error) {
       console.error("Erro no login:", error);
-      throw error; 
+      throw error;
     }
   };
 
   const register = async (credentials: RegisterInput) => {
-    try{
+    try {
       await authService.register(credentials);
-      await login(credentials)
-    }catch(error){
-      console.error("Erro ao Registrar",error);
+      await login(credentials);
+    } catch (error) {
+      console.error("Erro ao Registrar", error);
       throw error;
     }
   };
 
   const logout = () => {
-
     setUser(null);
     removeUsername();
     removeToken();
     removeRefreshToken();
-    localStorage.removeItem('matchId'); 
-    document.cookie = "auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    localStorage.removeItem("matchId");
+    document.cookie =
+      "auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     queryClient.clear();
-    window.location.href = '/login';
+    window.location.href = "/login";
   };
 
   return (
@@ -94,6 +107,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 // Hook para facilitar o uso nos componentes
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error('useAuth deve ser usado dentro de um AuthProvider');
+  if (!context)
+    throw new Error("useAuth deve ser usado dentro de um AuthProvider");
   return context;
 };

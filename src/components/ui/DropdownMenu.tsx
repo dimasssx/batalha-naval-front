@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useState, useRef, useEffect } from 'react';
-import { cn } from '@/lib/utils';
+import React, { useState, useRef, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 interface DropdownMenuProps {
   children: React.ReactNode;
@@ -14,7 +14,7 @@ interface DropdownMenuTriggerProps {
 
 interface DropdownMenuContentProps {
   children: React.ReactNode;
-  align?: 'start' | 'center' | 'end';
+  align?: "start" | "center" | "end";
   className?: string;
 }
 
@@ -60,7 +60,7 @@ export const DropdownMenuTrigger: React.FC<DropdownMenuTriggerProps> = ({
   return (
     <button
       onClick={() => setIsOpen(!isOpen)}
-      className={cn('outline-none', className)}
+      className={cn("outline-none", className)}
     >
       {children}
     </button>
@@ -69,7 +69,7 @@ export const DropdownMenuTrigger: React.FC<DropdownMenuTriggerProps> = ({
 
 export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
   children,
-  align = 'end',
+  align = "end",
   className,
 }) => {
   const { isOpen, setIsOpen } = React.useContext(DropdownMenuContext);
@@ -77,36 +77,39 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (contentRef.current && !contentRef.current.contains(event.target as Node)) {
+      if (
+        contentRef.current &&
+        !contentRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, setIsOpen]);
 
   if (!isOpen) return null;
 
   const alignmentClasses = {
-    start: 'left-0',
-    center: 'left-1/2 -translate-x-1/2',
-    end: 'right-0',
+    start: "left-0",
+    center: "left-1/2 -translate-x-1/2",
+    end: "right-0",
   };
 
   return (
     <div
       ref={contentRef}
       className={cn(
-        'absolute z-50 mt-2 min-w-[12rem] overflow-hidden rounded-md border border-slate-800 bg-slate-900 p-1 shadow-lg',
-        'animate-in fade-in-0 zoom-in-95',
+        "absolute z-50 mt-2 min-w-[12rem] overflow-hidden rounded-md border border-slate-800 bg-slate-900 p-1 shadow-lg",
+        "animate-in fade-in-0 zoom-in-95",
         alignmentClasses[align],
-        className
+        className,
       )}
     >
       {children}
@@ -130,10 +133,10 @@ export const DropdownMenuItem: React.FC<DropdownMenuItemProps> = ({
     <button
       onClick={handleClick}
       className={cn(
-        'relative flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-2 text-sm outline-none transition-colors',
-        'hover:bg-slate-800 hover:text-slate-100 focus:bg-slate-800 focus:text-slate-100',
-        'text-slate-300',
-        className
+        "relative flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-2 text-sm outline-none transition-colors",
+        "hover:bg-slate-800 hover:text-slate-100 focus:bg-slate-800 focus:text-slate-100",
+        "text-slate-300",
+        className,
       )}
     >
       {children}
@@ -144,7 +147,7 @@ export const DropdownMenuItem: React.FC<DropdownMenuItemProps> = ({
 export const DropdownMenuSeparator: React.FC<DropdownMenuSeparatorProps> = ({
   className,
 }) => {
-  return <div className={cn('my-1 h-px bg-slate-800', className)} />;
+  return <div className={cn("my-1 h-px bg-slate-800", className)} />;
 };
 
 export const DropdownMenuLabel: React.FC<DropdownMenuLabelProps> = ({
@@ -152,7 +155,12 @@ export const DropdownMenuLabel: React.FC<DropdownMenuLabelProps> = ({
   className,
 }) => {
   return (
-    <div className={cn('px-2 py-1.5 text-sm font-semibold text-slate-400', className)}>
+    <div
+      className={cn(
+        "px-2 py-1.5 text-sm font-semibold text-slate-400",
+        className,
+      )}
+    >
       {children}
     </div>
   );

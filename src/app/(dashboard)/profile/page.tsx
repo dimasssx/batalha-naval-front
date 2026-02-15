@@ -1,19 +1,42 @@
 /**
  * Profile Page - Career Stats & Medals
- * 
+ *
  * Displays comprehensive user statistics, achievements, and earned medals.
  * Features detailed stats visualization and an interactive medal showcase.
  */
-'use client';
+"use client";
 
-import React from 'react';
-import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { useUserProfile, getUserRank, getWinRate } from '@/hooks/queries/useUserProfile';
-import { MedalBadge } from '@/components/profile/MedalBadge';
-import { getUserMedals, getUnlockedMedalCount, sortMedalsByStatus } from '@/lib/medals';
-import { Trophy, Skull, Swords, Target, Ship, Medal, ArrowRight, Zap } from 'lucide-react';
+import React from "react";
+import { useRouter } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import {
+  useUserProfile,
+  getUserRank,
+  getWinRate,
+} from "@/hooks/queries/useUserProfile";
+import { MedalBadge } from "@/components/profile/MedalBadge";
+import {
+  getUserMedals,
+  getUnlockedMedalCount,
+  sortMedalsByStatus,
+} from "@/lib/medals";
+import {
+  Trophy,
+  Skull,
+  Swords,
+  Target,
+  Ship,
+  Medal,
+  ArrowRight,
+  Zap,
+} from "lucide-react";
 
 /**
  * Stat Card Component
@@ -23,40 +46,44 @@ interface StatCardProps {
   value: string | number;
   icon: React.ReactNode;
   trend?: string;
-  color?: 'success' | 'danger' | 'info';
+  color?: "success" | "danger" | "info";
 }
 
-const StatCard: React.FC<StatCardProps> = ({ label, value, icon, trend, color = 'info' }) => {
+const StatCard: React.FC<StatCardProps> = ({
+  label,
+  value,
+  icon,
+  trend,
+  color = "info",
+}) => {
   const bgClasses = {
-    success: 'bg-emerald-950/40 border-emerald-800/40',
-    danger: 'bg-rose-950/40 border-rose-800/40',
-    info: 'bg-slate-800/40 border-slate-700/40',
+    success: "bg-emerald-950/40 border-emerald-800/40",
+    danger: "bg-rose-950/40 border-rose-800/40",
+    info: "bg-slate-800/40 border-slate-700/40",
   };
 
   const iconBgClasses = {
-    success: 'bg-emerald-500/20 text-emerald-400',
-    danger: 'bg-rose-500/20 text-rose-400',
-    info: 'bg-cyan-500/20 text-cyan-400',
+    success: "bg-emerald-500/20 text-emerald-400",
+    danger: "bg-rose-500/20 text-rose-400",
+    info: "bg-cyan-500/20 text-cyan-400",
   };
 
   return (
-    <div className={`relative p-5 rounded-2xl border ${bgClasses[color]} backdrop-blur-sm`}>
+    <div
+      className={`relative p-5 rounded-2xl border ${bgClasses[color]} backdrop-blur-sm`}
+    >
       <div className="flex items-center justify-between mb-4">
-        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${iconBgClasses[color]}`}>
+        <div
+          className={`w-10 h-10 rounded-full flex items-center justify-center ${iconBgClasses[color]}`}
+        >
           {icon}
         </div>
         <p className="text-xs uppercase tracking-wider font-semibold text-slate-400">
           {label}
         </p>
       </div>
-      <p className="text-4xl font-bold text-white mb-1">
-        {value}
-      </p>
-      {trend && (
-        <p className="text-sm text-slate-400">
-          {trend}
-        </p>
-      )}
+      <p className="text-4xl font-bold text-white mb-1">{value}</p>
+      {trend && <p className="text-sm text-slate-400">{trend}</p>}
     </div>
   );
 };
@@ -117,7 +144,7 @@ export default function ProfilePage() {
       <div className="mb-8">
         <Button
           variant="ghost"
-          onClick={() => router.push('/lobby')}
+          onClick={() => router.push("/lobby")}
           className="mb-4 text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 -ml-2"
         >
           ← Voltar ao Lobby
@@ -237,15 +264,21 @@ export default function ProfilePage() {
             {/* Additional Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="p-4 rounded-xl bg-slate-950/40 border border-slate-800/50">
-                <p className="text-xs text-cyan-400/60 mb-2">Vitórias Consecutivas</p>
+                <p className="text-xs text-cyan-400/60 mb-2">
+                  Vitórias Consecutivas
+                </p>
                 <p className="text-2xl font-bold text-white">0</p>
               </div>
               <div className="p-4 rounded-xl bg-slate-950/40 border border-slate-800/50">
-                <p className="text-xs text-cyan-400/60 mb-2">Melhor Sequência</p>
+                <p className="text-xs text-cyan-400/60 mb-2">
+                  Melhor Sequência
+                </p>
                 <p className="text-2xl font-bold text-white">0</p>
               </div>
               <div className="p-4 rounded-xl bg-slate-950/40 border border-slate-800/50">
-                <p className="text-xs text-cyan-400/60 mb-2">Total de Acertos</p>
+                <p className="text-xs text-cyan-400/60 mb-2">
+                  Total de Acertos
+                </p>
                 <p className="text-2xl font-bold text-white">-</p>
               </div>
               <div className="p-4 rounded-xl bg-slate-950/40 border border-slate-800/50">
@@ -256,7 +289,9 @@ export default function ProfilePage() {
 
             <div className="flex items-center justify-center gap-2 text-cyan-400/60 text-sm">
               <Zap className="w-4 h-4" />
-              <p>Estatísticas avançadas serão registradas em partidas futuras</p>
+              <p>
+                Estatísticas avançadas serão registradas em partidas futuras
+              </p>
             </div>
           </div>
         </CardContent>
@@ -272,7 +307,9 @@ export default function ProfilePage() {
                   <Medal className="w-5 h-5 text-amber-400" />
                 </div>
                 <div>
-                  <span className="block text-lg font-bold">Medalhas e Conquistas</span>
+                  <span className="block text-lg font-bold">
+                    Medalhas e Conquistas
+                  </span>
                   <span className="block text-sm font-normal text-cyan-400/60">
                     {unlockedCount} de {medals.length} medalhas desbloqueadas
                   </span>
@@ -303,7 +340,9 @@ export default function ProfilePage() {
                 <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-1000 rounded-full"
-                    style={{ width: `${(unlockedCount / medals.length) * 100}%` }}
+                    style={{
+                      width: `${(unlockedCount / medals.length) * 100}%`,
+                    }}
                   />
                 </div>
               </div>
@@ -324,11 +363,12 @@ export default function ProfilePage() {
                     </div>
                   </div>
                   <p className="text-slate-300 mb-6">
-                    Jogue suas primeiras partidas para começar a desbloquear medalhas!
+                    Jogue suas primeiras partidas para começar a desbloquear
+                    medalhas!
                   </p>
                   <Button
                     className="bg-cyan-500 hover:bg-cyan-600 text-white"
-                    onClick={() => router.push('/lobby')}
+                    onClick={() => router.push("/lobby")}
                   >
                     Ir para o Lobby
                     <ArrowRight className="ml-2 w-4 h-4" />

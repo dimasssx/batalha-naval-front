@@ -1,9 +1,9 @@
 // Componente DraggableShip - Wrapper do dnd-kit (placeholder)
-'use client';
+"use client";
 
-import React from 'react';
-import { Ship } from './Ship';
-import { ShipType, ShipOrientation } from '@/types/game-enums';
+import React from "react";
+import { Ship } from "./Ship";
+import { ShipType, ShipOrientation } from "@/types/game-enums";
 
 interface DraggableShipProps {
   type: ShipType;
@@ -20,7 +20,7 @@ export const DraggableShip: React.FC<DraggableShipProps> = ({
 }) => {
   // TODO: Implementar dnd-kit quando necessário
   // Por enquanto, apenas um wrapper clicável
-  
+
   return (
     <Ship
       type={type}

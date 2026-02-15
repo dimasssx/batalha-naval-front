@@ -1,26 +1,47 @@
 /**
  * Game Mode Selector Component
- * 
+ *
  * Allows users to select between PvE (VS AI) and PvP (VS Player) game modes.
  * Handles match creation and navigation to the setup phase.
  */
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { useCreateMatchMutation, useJoinMatchMutation } from '@/hooks/queries/useMatchMutations';
-import { useMatchListQuery } from '@/hooks/queries/useMatchQuery';
-import { GameStatus } from '@/types/game-enums';
-import { Badge, Bot, Brain, Gamepad2, Globe, Plus, Radar, RefreshCcw, Search, Swords, Zap } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import {
+  useCreateMatchMutation,
+  useJoinMatchMutation,
+} from "@/hooks/queries/useMatchMutations";
+import { useMatchListQuery } from "@/hooks/queries/useMatchQuery";
+import { GameStatus } from "@/types/game-enums";
+import {
+  Badge,
+  Bot,
+  Brain,
+  Gamepad2,
+  Globe,
+  Plus,
+  Radar,
+  RefreshCcw,
+  Search,
+  Swords,
+  Zap,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 /**
  * AI Difficulty levels
  */
-export type AIDifficulty = 'Basic' | 'Intermediate' | 'Advanced';
+export type AIDifficulty = "Basic" | "Intermediate" | "Advanced";
 
 interface DifficultyOption {
   value: AIDifficulty;
@@ -30,19 +51,19 @@ interface DifficultyOption {
 
 const difficultyOptions: DifficultyOption[] = [
   {
-    value: 'Basic',
-    label: 'Básico',
-    description: 'IA com ataques aleatórios. Ideal para iniciantes.',
+    value: "Basic",
+    label: "Básico",
+    description: "IA com ataques aleatórios. Ideal para iniciantes.",
   },
   {
-    value: 'Intermediate',
-    label: 'Intermediário',
-    description: 'IA que busca navios após acertos.',
+    value: "Intermediate",
+    label: "Intermediário",
+    description: "IA que busca navios após acertos.",
   },
   {
-    value: 'Advanced',
-    label: 'Avançado',
-    description: 'IA com estratégia de caça otimizada.',
+    value: "Advanced",
+    label: "Avançado",
+    description: "IA com estratégia de caça otimizada.",
   },
 ];
 
@@ -62,18 +83,20 @@ export const GameModeSelector: React.FC = () => {
     }
   };
 
-  //TODO: 
+  //TODO:
   // Filter available matches (waiting for opponent)
-  const availableMatches = matches?.filter(
-    (match) => match.status === GameStatus.SETUP && !match.player2 // TODO: tem que ver isso dps 
-  ) || [];
+  const availableMatches =
+    matches?.filter(
+      (match) => match.status === GameStatus.SETUP && !match.player2, // TODO: tem que ver isso dps
+    ) || [];
 
   // PvE State
-  const [selectedDifficulty, setSelectedDifficulty] = useState<AIDifficulty>('Basic');
+  const [selectedDifficulty, setSelectedDifficulty] =
+    useState<AIDifficulty>("Basic");
 
   // PvP State
-  const [opponentId, setOpponentId] = useState('');
-  const [pvpError, setPvpError] = useState('');
+  const [opponentId, setOpponentId] = useState("");
+  const [pvpError, setPvpError] = useState("");
 
   /**
    * Handle PvE match creation
@@ -82,14 +105,14 @@ export const GameModeSelector: React.FC = () => {
     try {
       // Montamos o DTO específico para treino contra IA
       const match = await createMatch.mutateAsync({
-        mode: 'Classic',           // Ou 'SOLO', conforme sua API
-        aiDifficulty: selectedDifficulty   // Valor opcional que agora faz sentido
+        mode: "Classic", // Ou 'SOLO', conforme sua API
+        aiDifficulty: selectedDifficulty, // Valor opcional que agora faz sentido
       });
 
       // Redireciona usando o ID retornado
       router.push(`/match/${match.matchId}`);
     } catch (error) {
-      console.error('Erro ao iniciar treinamento:', error);
+      console.error("Erro ao iniciar treinamento:", error);
     }
   };
 
@@ -98,19 +121,19 @@ export const GameModeSelector: React.FC = () => {
    */
   const handleChallenge = async () => {
     if (!opponentId.trim()) {
-      setPvpError('Digite o ID do oponente');
+      setPvpError("Digite o ID do oponente");
       return;
     }
 
-    setPvpError('');
+    setPvpError("");
 
     try {
       // Try to join an existing match or create a challenge
       const match = await joinMatch.mutateAsync(opponentId.trim());
       router.push(`/match/${match.id}`);
     } catch (error) {
-      console.error('Erro ao desafiar oponente:', error);
-      setPvpError('Não foi possível encontrar o oponente');
+      console.error("Erro ao desafiar oponente:", error);
+      setPvpError("Não foi possível encontrar o oponente");
     }
   };
 
@@ -121,7 +144,7 @@ export const GameModeSelector: React.FC = () => {
         <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none group-hover:opacity-[0.05] transition-opacity">
           <Bot className="w-64 h-64" />
         </div>
-        <CardHeader className='pb-1'>
+        <CardHeader className="pb-1">
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2 text-cyan-400  pb-0">
               <Bot className="w-6 h-6" />
@@ -143,25 +166,41 @@ export const GameModeSelector: React.FC = () => {
                 <button
                   key={option.value}
                   onClick={() => setSelectedDifficulty(option.value)}
-                  className={
-                    `
+                  className={`
                     overflow-hiddenrelative flex flex-col p-3 rounded-2xl border-2 text-left transition-all hover:bg-slate-800/80 focus:outline-none
-                    ${selectedDifficulty === option.value
-                      ? 'border-cyan-500 bg-cyan-500/10 shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] scale-[1.02] z-10 '
-                      : 'border-slate-800 bg-slate-900/50 hover:border-slate-700 hover:bg-slate-800/40 '
+                    ${
+                      selectedDifficulty === option.value
+                        ? "border-cyan-500 bg-cyan-500/10 shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] scale-[1.02] z-10 "
+                        : "border-slate-800 bg-slate-900/50 hover:border-slate-700 hover:bg-slate-800/40 "
                     }
                   `}
                 >
                   <div className="flex  items-center gap-2 mb-1 p-1">
-                    {option.value === 'Basic' && <Brain className="w-4 h-4 text-emerald-400" />}
-                    {option.value === 'Intermediate' && <Swords className="w-4 h-4 text-orange-400 " />}
-                    {option.value === 'Advanced' && <Zap className="w-4 h-4 text-red-400" />}
-                    <span className={cn("font-bold text-sm",
-                      option.value === 'Basic' ? "text-emerald-400" :
-                        option.value === 'Intermediate' ? "text-orange-400" : "text-red-400"
-                    )}>{option.label}</span>
+                    {option.value === "Basic" && (
+                      <Brain className="w-4 h-4 text-emerald-400" />
+                    )}
+                    {option.value === "Intermediate" && (
+                      <Swords className="w-4 h-4 text-orange-400 " />
+                    )}
+                    {option.value === "Advanced" && (
+                      <Zap className="w-4 h-4 text-red-400" />
+                    )}
+                    <span
+                      className={cn(
+                        "font-bold text-sm",
+                        option.value === "Basic"
+                          ? "text-emerald-400"
+                          : option.value === "Intermediate"
+                            ? "text-orange-400"
+                            : "text-red-400",
+                      )}
+                    >
+                      {option.label}
+                    </span>
                   </div>
-                  <p className="text-xs text-slate-500 leading-snug p-1 ">{option.description}</p>
+                  <p className="text-xs text-slate-500 leading-snug p-1 ">
+                    {option.description}
+                  </p>
                 </button>
               ))}
             </div>
@@ -171,7 +210,8 @@ export const GameModeSelector: React.FC = () => {
             onClick={handleStartTraining}
             isLoading={createMatch.isPending}
             className="w-full rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-800 hover: text-white font-bold h-12 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all hover:scale-[1.01] active:scale-[0.99]"
-            size="lg">
+            size="lg"
+          >
             <Swords className="mr-2 h-5 w-5" />
             Iniciar Treinamento
           </Button>
@@ -198,7 +238,9 @@ export const GameModeSelector: React.FC = () => {
 
         <CardContent className="space-y-6">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-300">ID da Partida ou Oponente</label>
+            <label className="text-sm font-medium text-slate-300">
+              ID da Partida ou Oponente
+            </label>
             <div className="flex gap-2">
               <Input
                 type="text"
@@ -206,29 +248,36 @@ export const GameModeSelector: React.FC = () => {
                 value={opponentId}
                 onChange={(e) => {
                   setOpponentId(e.target.value);
-                  setPvpError('');
+                  setPvpError("");
                 }}
                 error={!!pvpError}
                 errorMessage={pvpError}
               />
             </div>
-            <p className="text-xs text-slate-500">Ou crie uma nova partida e compartilhe o ID com seu oponente</p>
+            <p className="text-xs text-slate-500">
+              Ou crie uma nova partida e compartilhe o ID com seu oponente
+            </p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <Button className="w-full rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-800 hover: text-white font-bold h-12 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all hover:scale-[1.01] active:scale-[0.99]"
+            <Button
+              className="w-full rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-800 hover: text-white font-bold h-12 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all hover:scale-[1.01] active:scale-[0.99]"
               onClick={handleChallenge}
               isLoading={joinMatch.isPending}
               disabled={!opponentId.trim()}
-              size="lg">
-              <Gamepad2 className="mr-2 h-6 w-6 text-white" /><p className='text-white'>Entrar na Partida</p>
+              size="lg"
+            >
+              <Gamepad2 className="mr-2 h-6 w-6 text-white" />
+              <p className="text-white">Entrar na Partida</p>
             </Button>
             <Button
               onClick={handleStartTraining}
               isLoading={createMatch.isPending}
               size="lg"
               className="w-full rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-800 hover: text-white font-bold h-12 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all hover:scale-[1.01] active:scale-[0.99]"
-            > <Plus className="mr-2 h-5 w-5" />
+            >
+              {" "}
+              <Plus className="mr-2 h-5 w-5" />
               Criar Partida
             </Button>
           </div>
@@ -249,7 +298,11 @@ export const GameModeSelector: React.FC = () => {
                 Entre em partidas criadas por outros jogadores
               </CardDescription>
             </div>
-            <Button variant="ghost" size="icon" className="text-slate-400 hover:text-cyan-400">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-slate-400 hover:text-cyan-400"
+            >
               <RefreshCcw className="w-4 h-4" />
             </Button>
           </div>
@@ -293,7 +346,9 @@ export const GameModeSelector: React.FC = () => {
                         Aguardando
                       </span>
                       <span>•</span>
-                      <span className="text-xs">ID: {match.id.slice(0, 8)}...</span>
+                      <span className="text-xs">
+                        ID: {match.id.slice(0, 8)}...
+                      </span>
                     </div>
                   </div>
 
@@ -310,21 +365,22 @@ export const GameModeSelector: React.FC = () => {
           ) : (
             <div className="text-center py-8">
               <div className="relative flex justify-center ">
-                <div className="absolute inset-0 bg-cyan-700/20 blur-xl flex justify-center rounded-full animate-pulse">
-                </div>
+                <div className="absolute inset-0 bg-cyan-700/20 blur-xl flex justify-center rounded-full animate-pulse"></div>
                 <Search className="w-16 h-16 text-cyan-300/50 relative z-10 " />
               </div>
               <div className="max-w-xs space-y-2">
-                <h3 className="text-lg font-medium text-slate-300">Nenhuma partida encontrada</h3>
+                <h3 className="text-lg font-medium text-slate-300">
+                  Nenhuma partida encontrada
+                </h3>
                 <p className="text-sm text-slate-500">
-                  Nenhuma partida pública disponível no momento. Crie uma nova partida ou desafie um amigo diretamente.
+                  Nenhuma partida pública disponível no momento. Crie uma nova
+                  partida ou desafie um amigo diretamente.
                 </p>
               </div>
             </div>
           )}
         </CardContent>
       </Card>
-
     </div>
   );
 };

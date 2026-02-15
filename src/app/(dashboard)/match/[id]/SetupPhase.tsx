@@ -1,19 +1,16 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { Match } from '@/types/api-responses';
-import { useSetupStore } from '@/stores/useSetupStore';
-import { Grid } from '@/components/game/board/Grid';
-import { DraggableShip } from '@/components/game/ships/DraggableShip';
-import { GameControls } from '@/components/game/HUD/GameControls';
-import { Button } from '@/components/ui/Button';
-import { FLEET_COMPOSITION, GRID_SIZE, SHIP_SIZES } from '@/lib/constants';
-import { CellState, ShipOrientation } from '@/types/game-enums';
-import {
-  
-  useSetupMatchMutation,
-} from '@/hooks/queries/useMatchMutations';
-import { useEffect } from 'react';
+import { useRouter } from "next/navigation";
+import { Match } from "@/types/api-responses";
+import { useSetupStore } from "@/stores/useSetupStore";
+import { Grid } from "@/components/game/board/Grid";
+import { DraggableShip } from "@/components/game/ships/DraggableShip";
+import { GameControls } from "@/components/game/HUD/GameControls";
+import { Button } from "@/components/ui/Button";
+import { FLEET_COMPOSITION, GRID_SIZE, SHIP_SIZES } from "@/lib/constants";
+import { CellState, ShipOrientation } from "@/types/game-enums";
+import { useSetupMatchMutation } from "@/hooks/queries/useMatchMutations";
+import { useEffect } from "react";
 
 interface SetupPhaseProps {
   match: Match;
@@ -31,7 +28,7 @@ export default function SetupPhase({ match }: SetupPhaseProps) {
     isShipPlaced,
     allShipsPlaced,
   } = useSetupStore();
-    
+
   useEffect(() => {
     return () => {
       console.log("Limpando tabuleiro ");
@@ -48,31 +45,33 @@ export default function SetupPhase({ match }: SetupPhaseProps) {
     .map(() => Array(GRID_SIZE).fill(CellState.WATER));
 
   const renderGrid = () => {
-  // 1. Cria a base de água
-  const grid = emptyGrid.map((row) => [...row]);
-  
-  // 2. Filtra APENAS os navios que estão no tabuleiro
-  const placedShips = ships.filter(s => s.startRow >= 0 && s.startCol >= 0);
+    // 1. Cria a base de água
+    const grid = emptyGrid.map((row) => [...row]);
 
-  placedShips.forEach((ship) => {
-    const size = SHIP_SIZES[ship.type];
-    for (let i = 0; i < size; i++) {
-      const row = ship.orientation === ShipOrientation.HORIZONTAL
-        ? ship.startRow
-        : ship.startRow + i;
-      const col = ship.orientation === ShipOrientation.HORIZONTAL
-        ? ship.startCol + i
-        : ship.startCol;
-      
-      // Proteção extra contra overflow do grid (ex: navio saindo pela borda)
-      if (grid[row] && grid[row][col] !== undefined) {
-        grid[row][col] = CellState.SHIP;
+    // 2. Filtra APENAS os navios que estão no tabuleiro
+    const placedShips = ships.filter((s) => s.startRow >= 0 && s.startCol >= 0);
+
+    placedShips.forEach((ship) => {
+      const size = SHIP_SIZES[ship.type];
+      for (let i = 0; i < size; i++) {
+        const row =
+          ship.orientation === ShipOrientation.HORIZONTAL
+            ? ship.startRow
+            : ship.startRow + i;
+        const col =
+          ship.orientation === ShipOrientation.HORIZONTAL
+            ? ship.startCol + i
+            : ship.startCol;
+
+        // Proteção extra contra overflow do grid (ex: navio saindo pela borda)
+        if (grid[row] && grid[row][col] !== undefined) {
+          grid[row][col] = CellState.SHIP;
+        }
       }
-    }
-  });
+    });
 
-  return grid;
-};
+    return grid;
+  };
 
   const handleCellClick = (row: number, col: number) => {
     if (!selectedShip) return;
@@ -85,7 +84,7 @@ export default function SetupPhase({ match }: SetupPhaseProps) {
       orientation: orientation,
       startRow: row,
       startCol: col,
-      size: SHIP_SIZES[selectedShip] // Tamanho real para validação no Store
+      size: SHIP_SIZES[selectedShip], // Tamanho real para validação no Store
     });
   };
 
@@ -116,14 +115,17 @@ export default function SetupPhase({ match }: SetupPhaseProps) {
         orientation: ShipOrientation.HORIZONTAL,
       }));
       // 2. Primeiro envia as posições
-      console.log('Payload a ser enviado:', JSON.stringify(setupShipsPayload, null, 2));
+      console.log(
+        "Payload a ser enviado:",
+        JSON.stringify(setupShipsPayload, null, 2),
+      );
 
       // Envia as posições
       await setupMatch.mutateAsync(setupShipsPayload);
 
-      console.log('Frota confirmada e pronta para o combate!');
+      console.log("Frota confirmada e pronta para o combate!");
     } catch (error) {
-      console.error('Erro na sequência de confirmação:', error);
+      console.error("Erro na sequência de confirmação:", error);
     }
   };
 
@@ -143,9 +145,11 @@ export default function SetupPhase({ match }: SetupPhaseProps) {
           </p>
           {match.player2 && (
             <div className="mt-4 p-2 bg-black/30 inline-block rounded-lg border border-white/10">
-              <span className="text-yellow-400 font-mono">ADVERSÁRIO:</span> 
+              <span className="text-yellow-400 font-mono">ADVERSÁRIO:</span>
               <span className="text-white ml-2">{match.player2.username}</span>
-              {match.player2.isReady && <span className="text-green-400 ml-2">✓ PRONTO</span>}
+              {match.player2.isReady && (
+                <span className="text-green-400 ml-2">✓ PRONTO</span>
+              )}
             </div>
           )}
         </div>
@@ -157,7 +161,7 @@ export default function SetupPhase({ match }: SetupPhaseProps) {
               <h2 className="text-xl font-black text-gray-800 mb-6 uppercase tracking-widest">
                 Porto de Guerra
               </h2>
-              
+
               <div className="space-y-4">
                 {FLEET_COMPOSITION.map((shipType) => (
                   <DraggableShip
@@ -181,7 +185,7 @@ export default function SetupPhase({ match }: SetupPhaseProps) {
                   canConfirm={allShipsPlaced() && !isPlayerReady}
                   confirmLabel="Zarpar Frota"
                 />
-                
+
                 <Button
                   onClick={clearBoard}
                   variant="outline"
@@ -215,7 +219,7 @@ export default function SetupPhase({ match }: SetupPhaseProps) {
 
         <div className="mt-12 text-center">
           <Button
-            onClick={() => router.push('/lobby')}
+            onClick={() => router.push("/lobby")}
             variant="ghost"
             className="text-gray-400 hover:text-white transition-colors"
           >
