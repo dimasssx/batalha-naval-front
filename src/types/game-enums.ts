@@ -9,9 +9,9 @@ export enum ShipOrientation {
   HORIZONTAL = "Horizontal",
   VERTICAL = "Vertical",
 }
-export enum GameStatus {
+export enum MatchStatus {
   SETUP = "Setup",
-  BATTLE = "InProgress",
+  IN_PROGRESS = "InProgress",
   FINISHED = "Finished",
 }
 export enum ShipType {
