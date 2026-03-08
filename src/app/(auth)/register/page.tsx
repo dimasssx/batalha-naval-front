@@ -83,8 +83,6 @@ export default function RegisterPage() {
         {/* Glow effect behind card */}
 
         <div className="relative backdrop-blur-xl bg-slate-900/40 border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden">
-         
-
           {/* Card Content */}
           <div className="p-8 space-y-6">
             {/* Logo & Title */}
@@ -122,8 +120,18 @@ export default function RegisterPage() {
                     className="ml-4 text-current hover:opacity-70 transition-opacity"
                     aria-label="Fechar alerta"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                   </button>
                 </div>
@@ -131,7 +139,10 @@ export default function RegisterPage() {
 
               {/* Username Field */}
               <div className="space-y-2">
-                <label htmlFor="username" className="block text-slate-300 text-sm font-medium">
+                <label
+                  htmlFor="username"
+                  className="block text-slate-300 text-sm font-medium"
+                >
                   Nome de usuário
                 </label>
                 <div className="relative">
@@ -146,12 +157,19 @@ export default function RegisterPage() {
                     {...register("username")}
                   />
                 </div>
-                {errors.username && <p className="text-sm text-red-400">{errors.username.message}</p>}
+                {errors.username && (
+                  <p className="text-sm text-red-400">
+                    {errors.username.message}
+                  </p>
+                )}
               </div>
 
               {/* Password Field */}
               <div className="space-y-2">
-                <label htmlFor="password" className="block text-slate-300 text-sm font-medium">
+                <label
+                  htmlFor="password"
+                  className="block text-slate-300 text-sm font-medium"
+                >
                   Senha
                 </label>
                 <div className="relative">
@@ -169,17 +187,30 @@ export default function RegisterPage() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition-colors"
-                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                    aria-label={
+                      showPassword ? "Ocultar senha" : "Mostrar senha"
+                    }
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
-                {errors.password && <p className="text-sm text-red-400">{errors.password.message}</p>}
+                {errors.password && (
+                  <p className="text-sm text-red-400">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
 
               {/* Confirm Password Field */}
               <div className="space-y-2">
-                <label htmlFor="confirmPassword" className="block text-slate-300 text-sm font-medium">
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-slate-300 text-sm font-medium"
+                >
                   Confirmar senha
                 </label>
                 <div className="relative">
@@ -197,12 +228,22 @@ export default function RegisterPage() {
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition-colors"
-                    aria-label={showConfirmPassword ? "Ocultar senha" : "Mostrar senha"}
+                    aria-label={
+                      showConfirmPassword ? "Ocultar senha" : "Mostrar senha"
+                    }
                   >
-                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showConfirmPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
-                {errors.confirmPassword && <p className="text-sm text-red-400">{errors.confirmPassword.message}</p>}
+                {errors.confirmPassword && (
+                  <p className="text-sm text-red-400">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
               </div>
 
               {/* Submit Button */}
@@ -234,9 +275,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Server Status */}
-        <div className="mt-6 text-center">
-          
-        </div>
+        <div className="mt-6 text-center"></div>
       </div>
     </div>
   );

@@ -22,7 +22,10 @@ import {
   useJoinMatchMutation,
 } from "@/hooks/queries/useMatchMutations";
 import { useMatchListQuery } from "@/hooks/queries/useMatchQuery";
-import { useCampaignProgressQuery, useStartCampaignMutation } from "@/hooks/queries/useCampaign";
+import {
+  useCampaignProgressQuery,
+  useStartCampaignMutation,
+} from "@/hooks/queries/useCampaign";
 import { MatchStatus } from "@/types/game-enums";
 import {
   Badge,
@@ -77,7 +80,8 @@ export const GameModeSelector: React.FC = () => {
   const { data: matches, isLoading: isLoadingMatches } = useMatchListQuery();
 
   //modo campanha
-  const { data: campaignProgress, isLoading: isLoadingCampaign } = useCampaignProgressQuery();
+  const { data: campaignProgress, isLoading: isLoadingCampaign } =
+    useCampaignProgressQuery();
   const startCampaign = useStartCampaignMutation();
 
   //TODO: NAO FAZ nada ainda pq n existe um get match no back
@@ -165,25 +169,43 @@ export const GameModeSelector: React.FC = () => {
   const getStageInfo = (stage?: string) => {
     switch (stage) {
       case "Stage1Basic":
-        return { title: "Estágio 1 - Frota Patrulha", desc: "A inteligência inimiga é rudimentar. Defenda nossas águas.", color: "text-emerald-400" };
+        return {
+          title: "Estágio 1 - Frota Patrulha",
+          desc: "A inteligência inimiga é rudimentar. Defenda nossas águas.",
+          color: "text-emerald-400",
+        };
       case "Stage2Intermediate":
-        return { title: "Estágio 2 - Frota Intermediária", desc: "Eles aprenderam nossas táticas. A IA caçará seus navios.", color: "text-orange-400" };
+        return {
+          title: "Estágio 2 - Frota Intermediária",
+          desc: "Eles aprenderam nossas táticas. A IA caçará seus navios.",
+          color: "text-orange-400",
+        };
       case "Stage3Advanced":
-        return { title: "Estágio 3 - Frota Almirante", desc: "Estratégia avançada. Cada movimento inimigo é calculado.", color: "text-red-400" };
+        return {
+          title: "Estágio 3 - Frota Almirante",
+          desc: "Estratégia avançada. Cada movimento inimigo é calculado.",
+          color: "text-red-400",
+        };
       case "Completed":
-        return { title: "Campanha Concluída", desc: "Almirante, os mares estão seguros graças a você!", color: "text-cyan-400" };
+        return {
+          title: "Campanha Concluída",
+          desc: "Almirante, os mares estão seguros graças a você!",
+          color: "text-cyan-400",
+        };
       default:
-        return { title: "Carregando Operação...", desc: "Buscando diretrizes do comando...", color: "text-slate-400" };
+        return {
+          title: "Carregando Operação...",
+          desc: "Buscando diretrizes do comando...",
+          color: "text-slate-400",
+        };
     }
   };
 
   const currentStageInfo = getStageInfo(campaignProgress?.currentStage);
   const isCampaignCompleted = campaignProgress?.currentStage === "Completed";
 
-
   return (
     <div className="space-y-6">
-
       {/* NOVO: Campaign Section */}
       <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm relative overflow-hidden group">
         <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none group-hover:opacity-[0.05] transition-opacity">
@@ -197,13 +219,14 @@ export const GameModeSelector: React.FC = () => {
             </CardTitle>
           </div>
           <CardDescription className="text-sm font-small text-slate-400 mb-5">
-            Siga as missões do Comando Naval e enfrente frotas progressivamente mais difíceis.
+            Siga as missões do Comando Naval e enfrente frotas progressivamente
+            mais difíceis.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="p-4 rounded-xl border border-slate-800 bg-slate-900/80 flex flex-col gap-2">
             {isLoadingCampaign ? (
-               <div className="h-6 w-48 bg-slate-800 animate-pulse rounded"></div>
+              <div className="h-6 w-48 bg-slate-800 animate-pulse rounded"></div>
             ) : (
               <>
                 <h3 className={cn("text-lg font-bold", currentStageInfo.color)}>
@@ -213,7 +236,9 @@ export const GameModeSelector: React.FC = () => {
                   {currentStageInfo.desc}
                 </p>
                 {campaignError && (
-                  <p className="text-sm text-red-500 font-semibold">{campaignError}</p>
+                  <p className="text-sm text-red-500 font-semibold">
+                    {campaignError}
+                  </p>
                 )}
               </>
             )}
@@ -225,9 +250,9 @@ export const GameModeSelector: React.FC = () => {
             disabled={isCampaignCompleted || isLoadingCampaign}
             className={cn(
               "w-full rounded-2xl text-white font-bold h-12 transition-all",
-              isCampaignCompleted 
-                ? "bg-slate-800 opacity-50 cursor-not-allowed" 
-                : "bg-gradient-to-r from-cyan-600 to-cyanfrom-cyan-600 to-blue-800 hover: text-white font-bold h-12 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all hover:scale-[1.01] active:scale-[0.99]-700 hover:scale-[1.01] active:scale-[0.99] shadow-[0_0_20px_rgba(217,119,6,0.3)]"
+              isCampaignCompleted
+                ? "bg-slate-800 opacity-50 cursor-not-allowed"
+                : "bg-gradient-to-r from-cyan-600 to-cyanfrom-cyan-600 to-blue-800 hover: text-white font-bold h-12 shadow-[0_0_20px_rgba(236,72,153,0.3)] transition-all hover:scale-[1.01] active:scale-[0.99]-700 hover:scale-[1.01] active:scale-[0.99] shadow-[0_0_20px_rgba(217,119,6,0.3)]",
             )}
             size="lg"
           >

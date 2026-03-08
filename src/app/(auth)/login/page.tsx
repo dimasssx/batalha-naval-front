@@ -76,7 +76,6 @@ export default function LoginPage() {
                 <h1 className="text-3xl font-bold tracking-tight text-white drop-shadow-lg">
                   Batalha Naval
                 </h1>
-                
               </div>
             </div>
 
@@ -95,8 +94,18 @@ export default function LoginPage() {
                     className="ml-4 text-current hover:opacity-70 transition-opacity"
                     aria-label="Fechar alerta"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                   </button>
                 </div>
@@ -104,7 +113,10 @@ export default function LoginPage() {
 
               {/* Username Field */}
               <div className="space-y-2">
-                <label htmlFor="username" className="block text-slate-300 text-sm font-medium">
+                <label
+                  htmlFor="username"
+                  className="block text-slate-300 text-sm font-medium"
+                >
                   Usuário
                 </label>
                 <div className="relative">
@@ -119,12 +131,19 @@ export default function LoginPage() {
                     {...register("username")}
                   />
                 </div>
-                {errors.username && <p className="text-sm text-red-400">{errors.username.message}</p>}
+                {errors.username && (
+                  <p className="text-sm text-red-400">
+                    {errors.username.message}
+                  </p>
+                )}
               </div>
 
               {/* Password Field */}
               <div className="space-y-2">
-                <label htmlFor="password" className="block text-slate-300 text-sm font-medium">
+                <label
+                  htmlFor="password"
+                  className="block text-slate-300 text-sm font-medium"
+                >
                   Senha
                 </label>
                 <div className="relative">
@@ -142,12 +161,22 @@ export default function LoginPage() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition-colors"
-                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                    aria-label={
+                      showPassword ? "Ocultar senha" : "Mostrar senha"
+                    }
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
-                {errors.password && <p className="text-sm text-red-400">{errors.password.message}</p>}
+                {errors.password && (
+                  <p className="text-sm text-red-400">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
 
               {/* Submit Button */}
@@ -177,9 +206,6 @@ export default function LoginPage() {
           {/* Bottom Accent */}
           <div className="h-1 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent"></div>
         </div>
-
-      
-        
       </div>
     </div>
   );
